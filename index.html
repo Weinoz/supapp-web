@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>'Sup — Profil</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F7F8F7; color: #111; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card { background: white; border-radius: 24px; padding: 32px; max-width: 400px; width: 90%; box-shadow: 0 4px 24px rgba(0,0,0,0.08); text-align: center; }
+    .logo { font-size: 48px; margin-bottom: 8px; }
+    .appname { color: #2D9B5C; font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 24px; }
+    .avatar { width: 88px; height: 88px; border-radius: 44px; background: #2D9B5C; display: inline-flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; color: white; margin-bottom: 12px; }
+    .username { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+    .bio { color: #555; font-size: 14px; margin-bottom: 20px; }
+    .stats { display: flex; gap: 24px; justify-content: center; margin-bottom: 28px; }
+    .stat { text-align: center; }
+    .stat-n { font-size: 22px; font-weight: 800; color: #2D9B5C; }
+    .stat-l { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; }
+    .cta { display: inline-block; background: #2D9B5C; color: white; padding: 16px 32px; border-radius: 14px; font-size: 16px; font-weight: 700; text-decoration: none; margin-bottom: 12px; width: 100%; }
+    .cta-sec { color: #2D9B5C; font-size: 13px; }
+    .footer { margin-top: 24px; color: #ccc; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">💪</div>
+    <div class="appname">'Sup</div>
+    <div class="avatar" id="avatar">?</div>
+    <div class="username" id="username">Chargement...</div>
+    <div class="bio" id="bio"></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="goals">-</div><div class="stat-l">Objectifs</div></div>
+      <div class="stat"><div class="stat-n" id="followers">-</div><div class="stat-l">Followers</div></div>
+    </div>
+    <a class="cta" id="deeplink" href="#">Voir le profil dans l'app</a>
+    <div class="cta-sec">Télécharge 'Sup sur l'App Store & Google Play</div>
+    <div class="footer">supapp.fr</div>
+  </div>
+
+  <script>
+    const path = window.location.pathname // /u/pseudo
+    const parts = path.split('/')
+    const username = parts[2] || ''
+
+    if (username) {
+      // Deep link vers l'app
+      document.getElementById('deeplink').href = `supapp://u/${username}`
+
+      // Fetch depuis Supabase (remplace TON_URL et TON_KEY)
+      const SUPABASE_URL = 'https://vcpfjhwwpkjkoyfjuqxo.supabase.co'
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjcGZqaHd3cGtqa295Zmp1cXhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzcyOTEsImV4cCI6MjA5NTY1MzI5MX0.Oo3JljuS1ZIH7V2cPsyRvFl4VDQJ23B_Hht70vXlvuE'
+
+      fetch(`${SUPABASE_URL}/rest/v1/profiles?username=eq.${username}&select=username,bio,avatar_url`, {
+        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+      })
+      .then(r => r.json())
+      .then(data => {
+        const p = data[0]
+        if (!p) { document.getElementById('username').textContent = 'Utilisateur introuvable'; return }
+        document.getElementById('username').textContent = p.username
+        document.getElementById('bio').textContent = p.bio || ''
+        document.getElementById('avatar').textContent = p.username[0].toUpperCase()
+        document.title = `${p.username} — 'Sup`
+        if (p.avatar_url) {
+          document.getElementById('avatar').innerHTML = `<img src="${p.avatar_url}" style="width:88px;height:88px;border-radius:44px;object-fit:cover;">`
+        }
+      })
+      .catch(() => {})
+
+      // Goals count
+      fetch(`${SUPABASE_URL}/rest/v1/goals?select=id&is_public=eq.true&profiles.username=eq.${username}`, {
+        headers: { apikey: SUPABASE_KEY }
+      })
+      .then(r => r.json())
+      .then(data => document.getElementById('goals').textContent = data.length)
+      .catch(() => {})
+    }
+  </script>
+</body>
+</html>

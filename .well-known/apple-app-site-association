@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TON_TEAM_ID.fr.supapp.app",
+        "paths": [
+          "/u/*",
+          "/goal/*",
+          "/challenge/*"
+        ]
+      }
+    ]
+  }
+}
