@@ -136,12 +136,24 @@
 </footer>
 <script>
 var path=window.location.pathname;
+var SB='https://vcpfjhwwpkjkoyfjuqxo.supabase.co';
+var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjcGZqaHd3cGtqa295Zmp1cXhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzcyOTEsImV4cCI6MjA5NTY1MzI5MX0.Oo3JljuS1ZIH7V2cPsyRvFl4VDQJ23B_Hht70vXlvuE';
+
+function card(inner){return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:#FAF9F6"><div style="background:#fff;border-radius:28px;padding:32px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(26,26,46,.08);text-align:center">'+inner+'<p style="color:#B0A99F;font-size:12px;margin-top:16px">Disponible sur Android</p></div></div>'}
+function btn(href,txt){return '<a href="'+href+'" style="display:block;background:#2D9B5C;color:#fff;padding:16px;border-radius:16px;text-decoration:none;font-weight:800;font-size:15px;margin-bottom:0">'+txt+'</a>'}
+
+// Profil /u/username
 if(path.startsWith('/u/')&&path.length>3){
   var un=path.split('/')[2];
-  var SB='https://vcpfjhwwpkjkoyfjuqxo.supabase.co';
-  var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjcGZqaHd3cGtqa295Zmp1cXhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzcyOTEsImV4cCI6MjA5NTY1MzI5MX0.Oo3JljuS1ZIH7V2cPsyRvFl4VDQJ23B_Hht70vXlvuE';
-  document.body.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:#FAF9F6"><div style="background:#fff;border-radius:28px;padding:32px;max-width:380px;width:100%;box-shadow:0 8px 32px rgba(26,26,46,.08);text-align:center"><div id="av" style="width:80px;height:80px;border-radius:28px;background:#2D9B5C;font-size:32px;font-weight:700;color:#fff;margin:0 auto 16px;display:flex;align-items:center;justify-content:center">?</div><h1 id="un" style="font-size:24px;font-weight:900;color:#1A1A2E;margin-bottom:8px">Chargement...</h1><p id="bio" style="color:#6E6880;font-size:14px;margin-bottom:24px"></p><a href="supapp://u/'+un+'" style="display:block;background:#2D9B5C;color:#fff;padding:16px;border-radius:16px;text-decoration:none;font-weight:800;font-size:15px">Voir le profil dans Sup</a><p style="color:#B0A99F;font-size:12px;margin-top:16px">Telechargez Sup sur Android</p></div></div>';
-  fetch(SB+'/rest/v1/profiles?username=eq.'+un+'&select=username,bio,avatar_url',{headers:{apikey:KEY}}).then(function(r){return r.json()}).then(function(d){var p=d[0];if(!p)return;document.getElementById('un').textContent=p.username;document.getElementById('bio').textContent=p.bio||'';document.getElementById('av').textContent=p.username[0].toUpperCase();document.title=p.username+" - Sup";if(p.avatar_url)document.getElementById('av').innerHTML='<img src="'+p.avatar_url+'" style="width:80px;height:80px;border-radius:28px;object-fit:cover">'});
+  document.body.innerHTML=card('<div id="av" style="width:80px;height:80px;border-radius:28px;background:#2D9B5C;font-size:32px;font-weight:700;color:#fff;margin:0 auto 16px;display:flex;align-items:center;justify-content:center">?</div><h1 id="un" style="font-size:24px;font-weight:900;color:#1A1A2E;margin-bottom:8px">...</h1><p id="bio" style="color:#6E6880;font-size:14px;margin-bottom:24px"></p>'+btn('supapp://u/'+un,'Voir le profil dans \'Sup'));
+  fetch(SB+'/rest/v1/profiles?username=eq.'+un+'&select=username,bio,avatar_url',{headers:{apikey:KEY}}).then(function(r){return r.json()}).then(function(d){var p=d[0];if(!p)return;document.getElementById('un').textContent=p.username;document.getElementById('bio').textContent=p.bio||'';document.getElementById('av').textContent=p.username[0].toUpperCase();document.title=p.username+" - 'Sup";if(p.avatar_url)document.getElementById('av').innerHTML='<img src="'+p.avatar_url+'" style="width:80px;height:80px;border-radius:28px;object-fit:cover">'});
+}
+
+// Objectif /goal/id
+else if(path.startsWith('/goal/')&&path.length>7){
+  var gid=path.split('/')[2];
+  document.body.innerHTML=card('<div style="font-size:40px;margin-bottom:16px">🎯</div><h1 id="gt" style="font-size:20px;font-weight:900;color:#1A1A2E;margin-bottom:8px">Chargement...</h1><p id="gu" style="color:#6E6880;font-size:14px;margin-bottom:6px"></p><p id="gd" style="color:#B0A99F;font-size:13px;margin-bottom:24px"></p>'+btn('supapp://goal/'+gid,'Voir l\'objectif dans \'Sup'));
+  fetch(SB+'/rest/v1/goals?id=eq.'+gid+'&select=title,description,deadline,profiles(username)',{headers:{apikey:KEY}}).then(function(r){return r.json()}).then(function(d){var g=d[0];if(!g)return;document.getElementById('gt').textContent=g.title;document.getElementById('gu').textContent='Par '+(g.profiles&&g.profiles.username?g.profiles.username:'?');if(g.description)document.getElementById('gd').textContent=g.description;if(g.deadline)document.getElementById('gd').textContent+=' · '+new Date(g.deadline).toLocaleDateString('fr-FR');document.title=g.title+" - 'Sup"});
 }
 </script>
 </body>
