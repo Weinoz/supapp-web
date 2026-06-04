@@ -1,81 +1,148 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>'Sup — Profil</title>
+  <title>Sup - Seul on va vite. Ensemble on va loin.</title>
+  <meta name="description" content="Pose tes objectifs, implique tes amis, tiens tes engagements.">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F7F8F7; color: #111; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-    .card { background: white; border-radius: 24px; padding: 32px; max-width: 400px; width: 90%; box-shadow: 0 4px 24px rgba(0,0,0,0.08); text-align: center; }
-    .logo { font-size: 48px; margin-bottom: 8px; }
-    .appname { color: #2D9B5C; font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 24px; }
-    .avatar { width: 88px; height: 88px; border-radius: 44px; background: #2D9B5C; display: inline-flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; color: white; margin-bottom: 12px; }
-    .username { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
-    .bio { color: #555; font-size: 14px; margin-bottom: 20px; }
-    .stats { display: flex; gap: 24px; justify-content: center; margin-bottom: 28px; }
-    .stat { text-align: center; }
-    .stat-n { font-size: 22px; font-weight: 800; color: #2D9B5C; }
-    .stat-l { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; }
-    .cta { display: inline-block; background: #2D9B5C; color: white; padding: 16px 32px; border-radius: 14px; font-size: 16px; font-weight: 700; text-decoration: none; margin-bottom: 12px; width: 100%; }
-    .cta-sec { color: #2D9B5C; font-size: 13px; }
-    .footer { margin-top: 24px; color: #ccc; font-size: 12px; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--g:#2D9B5C;--o:#FF8147;--bg:#FAF9F6;--card:#fff;--txt:#1A1A2E;--sub:#6E6880;--muted:#B0A99F;--border:#E8E3DB}
+    body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;position:sticky;top:0;z-index:100;background:rgba(250,249,246,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo-icon{width:40px;height:40px;border-radius:14px;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 12px rgba(45,155,92,.3)}
+    .logo-name{font-size:20px;font-weight:900;color:var(--txt);letter-spacing:-.5px}
+    .nav-cta{background:var(--g);color:#fff;padding:10px 24px;border-radius:24px;text-decoration:none;font-size:14px;font-weight:700}
+    .hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden}
+    .b1{position:absolute;top:-100px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,129,71,.12),transparent 70%);pointer-events:none}
+    .b2{position:absolute;bottom:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(45,155,92,.1),transparent 70%);pointer-events:none}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(45,155,92,.1);color:var(--g);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid rgba(45,155,92,.2);margin-bottom:28px}
+    h1{font-size:clamp(44px,8vw,86px);font-weight:900;line-height:1;letter-spacing:-3px;margin-bottom:24px;max-width:800px}
+    h1 span{color:var(--g)}
+    .hero-sub{font-size:clamp(17px,2.5vw,21px);color:var(--sub);line-height:1.6;max-width:520px;margin:0 auto 48px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
+    .btn-p{background:var(--g);color:#fff;padding:18px 36px;border-radius:18px;text-decoration:none;font-size:16px;font-weight:800;box-shadow:0 8px 24px rgba(45,155,92,.35)}
+    .btn-s{background:var(--card);color:var(--txt);padding:18px 36px;border-radius:18px;text-decoration:none;font-size:16px;font-weight:700;border:1.5px solid var(--border)}
+    .phone{width:min(300px,82vw);background:var(--card);border-radius:40px;overflow:hidden;box-shadow:0 40px 80px rgba(26,26,46,.15),0 0 0 1px var(--border)}
+    .screen{width:100%;aspect-ratio:9/16;background:linear-gradient(135deg,#FAF9F6,#F0EDE8);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px}
+    .pg{color:var(--muted);font-size:11px;align-self:flex-start}
+    .pn{color:var(--txt);font-size:26px;font-weight:900;letter-spacing:-1px;align-self:flex-start}
+    .pc{background:#fff;border-radius:18px;padding:14px;width:100%;box-shadow:0 4px 12px rgba(26,26,46,.07);border-top:4px solid var(--g)}
+    .pcc{font-size:9px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+    .pct{font-size:14px;font-weight:800;color:var(--txt);margin-bottom:7px}
+    .pcs{display:flex;align-items:center;gap:4px}
+    .av{width:20px;height:20px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700}
+    .pst{font-size:10px;color:var(--sub)}
+    .ppb{background:var(--g);color:#fff;padding:7px;border-radius:14px;font-size:11px;font-weight:700;margin-top:8px;text-align:center}
+    .features{padding:100px 24px;max-width:1100px;margin:0 auto}
+    .sl{color:var(--g);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:16px}
+    h2{font-size:clamp(30px,5vw,50px);font-weight:900;text-align:center;letter-spacing:-1.5px;line-height:1.1;margin-bottom:14px}
+    .ss{color:var(--sub);font-size:18px;text-align:center;max-width:480px;margin:0 auto 60px;line-height:1.6}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+    .fc{background:var(--card);border-radius:22px;padding:26px;border:1px solid var(--border);box-shadow:0 4px 14px rgba(26,26,46,.05)}
+    .fi{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:14px}
+    .ft{font-size:17px;font-weight:800;margin-bottom:7px;color:var(--txt)}
+    .fd{font-size:13px;color:var(--sub);line-height:1.6}
+    .how{background:var(--txt);color:#fff;padding:100px 24px}
+    .hi{max-width:900px;margin:0 auto}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;margin-top:56px}
+    .step{text-align:center}
+    .snum{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.08);color:var(--g);font-size:20px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+    .stit{font-size:16px;font-weight:700;margin-bottom:7px}
+    .sdesc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.5}
+    .ctas{padding:100px 24px;text-align:center}
+    footer{border-top:1px solid var(--border);padding:36px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;max-width:1100px;margin:0 auto}
+    @media(max-width:640px){nav{padding:16px 20px}footer{flex-direction:column;text-align:center}}
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="logo">💪</div>
-    <div class="appname">'Sup</div>
-    <div class="avatar" id="avatar">?</div>
-    <div class="username" id="username">Chargement...</div>
-    <div class="bio" id="bio"></div>
-    <div class="stats">
-      <div class="stat"><div class="stat-n" id="goals">-</div><div class="stat-l">Objectifs</div></div>
-      <div class="stat"><div class="stat-n" id="followers">-</div><div class="stat-l">Followers</div></div>
-    </div>
-    <a class="cta" id="deeplink" href="#">Voir le profil dans l'app</a>
-    <div class="cta-sec">Télécharge 'Sup sur l'App Store & Google Play</div>
-    <div class="footer">supapp.fr</div>
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-icon">&#x1F4AA;</div>
+    <span class="logo-name">&apos;Sup</span>
+  </a>
+  <a href="#download" class="nav-cta">Telecharger</a>
+</nav>
+<section class="hero">
+  <div class="b1"></div><div class="b2"></div>
+  <div class="badge">&#x2728; Disponible sur Android</div>
+  <h1>Seul on va vite.<br><span>Ensemble</span> on va loin.</h1>
+  <p class="hero-sub">Pose tes objectifs, implique tes amis, et laisse la motivation collective faire le reste.</p>
+  <div class="actions">
+    <a href="#download" class="btn-p">&#x1F4F1; Telecharger</a>
+    <a href="#features" class="btn-s">Decouvrir</a>
   </div>
-
-  <script>
-    const path = window.location.pathname // /u/pseudo
-    const parts = path.split('/')
-    const username = parts[2] || ''
-
-    if (username) {
-      // Deep link vers l'app
-      document.getElementById('deeplink').href = `supapp://u/${username}`
-
-      // Fetch depuis Supabase (remplace TON_URL et TON_KEY)
-      const SUPABASE_URL = 'https://vcpfjhwwpkjkoyfjuqxo.supabase.co'
-      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjcGZqaHd3cGtqa295Zmp1cXhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzcyOTEsImV4cCI6MjA5NTY1MzI5MX0.Oo3JljuS1ZIH7V2cPsyRvFl4VDQJ23B_Hht70vXlvuE'
-
-      fetch(`${SUPABASE_URL}/rest/v1/profiles?username=eq.${username}&select=username,bio,avatar_url`, {
-        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
-      })
-      .then(r => r.json())
-      .then(data => {
-        const p = data[0]
-        if (!p) { document.getElementById('username').textContent = 'Utilisateur introuvable'; return }
-        document.getElementById('username').textContent = p.username
-        document.getElementById('bio').textContent = p.bio || ''
-        document.getElementById('avatar').textContent = p.username[0].toUpperCase()
-        document.title = `${p.username} — 'Sup`
-        if (p.avatar_url) {
-          document.getElementById('avatar').innerHTML = `<img src="${p.avatar_url}" style="width:88px;height:88px;border-radius:44px;object-fit:cover;">`
-        }
-      })
-      .catch(() => {})
-
-      // Goals count
-      fetch(`${SUPABASE_URL}/rest/v1/goals?select=id&is_public=eq.true&profiles.username=eq.${username}`, {
-        headers: { apikey: SUPABASE_KEY }
-      })
-      .then(r => r.json())
-      .then(data => document.getElementById('goals').textContent = data.length)
-      .catch(() => {})
-    }
-  </script>
+  <div class="phone">
+    <div class="screen">
+      <span class="pg">Bonjour &#x1F44B;</span>
+      <span class="pn">Yelan</span>
+      <div class="pc">
+        <div class="pcc">Sport</div>
+        <div class="pct">Courir 5km sans m&apos;arreter</div>
+        <div class="pcs">
+          <div class="av" style="background:#FF8147">M</div>
+          <div class="av" style="background:#7C5CBF;margin-left:-5px">S</div>
+          <span class="pst">3 personnes te soutiennent</span>
+        </div>
+        <div class="ppb">&#x1F4AA; Motiver</div>
+      </div>
+      <div class="pc" style="border-top-color:#7C3AED">
+        <div class="pcc" style="color:#7C3AED">Perso</div>
+        <div class="pct">Mediter 10 min chaque matin</div>
+        <div class="pcs"><span class="pst">&#x1F525; En retard de 2j</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="features" id="features">
+  <p class="sl">Pourquoi Sup</p>
+  <h2>La motivation, c&apos;est contagieuse</h2>
+  <p class="ss">Tout ce qu&apos;il faut pour transformer tes intentions en actions.</p>
+  <div class="grid">
+    <div class="fc"><div class="fi" style="background:#F0FDF4">&#x1F3AF;</div><div class="ft">Objectifs visibles</div><div class="fd">Pose tes objectifs publiquement. La visibilite cree la responsabilite.</div></div>
+    <div class="fc"><div class="fi" style="background:#FFF7ED">&#x1F3DF;</div><div class="ft">Un stade de supporters</div><div class="fd">Tes amis te soutiennent d&apos;un tap. Tu vois leurs visages sur chaque objectif.</div></div>
+    <div class="fc"><div class="fi" style="background:#FFF1F2">&#x1F91D;</div><div class="ft">Engagements mutuels</div><div class="fd">Toi et un ami, meme objectif. Vous vous tenez responsables l&apos;un l&apos;autre.</div></div>
+    <div class="fc"><div class="fi" style="background:#F5F3FF">&#x26A1;</div><div class="ft">Defis entre amis</div><div class="fd">Lance un defi a quelqu&apos;un ou a toute la communaute.</div></div>
+    <div class="fc"><div class="fi" style="background:#FFFBEB">&#x1F525;</div><div class="ft">Streaks et XP</div><div class="fd">Monte de niveau, debloque des badges, compare-toi sainement.</div></div>
+    <div class="fc"><div class="fi" style="background:#F0F9FF">&#x23F1;</div><div class="ft">Juste 5 minutes</div><div class="fd">En retard ? Lance un timer 5 min. C&apos;est souvent tout ce qu&apos;il faut.</div></div>
+  </div>
+</section>
+<section class="how">
+  <div class="hi">
+    <p class="sl" style="color:rgba(255,255,255,.3)">Comment ca marche</p>
+    <h2 style="color:#fff">Simple comme bonjour</h2>
+    <p class="ss" style="color:rgba(255,255,255,.5)">Trois etapes pour ne plus jamais abandonner.</p>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="stit">Pose ton objectif</div><div class="sdesc">Ecris ce que tu veux accomplir. Choisis qui peut voir.</div></div>
+      <div class="step"><div class="snum">2</div><div class="stit">Implique ton squad</div><div class="sdesc">Tes amis voient tes objectifs et te motivent d&apos;un tap.</div></div>
+      <div class="step"><div class="snum">3</div><div class="stit">Tiens tes engagements</div><div class="sdesc">La pression sociale bienveillante fait le reste.</div></div>
+    </div>
+  </div>
+</section>
+<section class="ctas" id="download">
+  <p class="sl">Pret ?</p>
+  <h2>Commence aujourd&apos;hui</h2>
+  <p class="ss" style="margin-bottom:40px">Gratuit. Sans prise de tete. Avec tes amis.</p>
+  <div class="actions" style="justify-content:center">
+    <a href="supapp://home" class="btn-p">&#x1F4F1; Ouvrir Sup</a>
+  </div>
+  <p style="color:var(--muted);font-size:13px;margin-top:20px">Disponible sur Android - iOS bientot</p>
+</section>
+<footer>
+  <div style="font-size:18px;font-weight:900">&#x1F4AA; Sup</div>
+  <div style="display:flex;gap:24px"><a href="mailto:contact@supapp.fr" style="color:var(--sub);text-decoration:none;font-size:14px">Contact</a></div>
+  <div style="color:var(--muted);font-size:13px">2026 Sup - supapp.fr</div>
+</footer>
+<script>
+var path=window.location.pathname;
+if(path.startsWith('/u/')&&path.length>3){
+  var un=path.split('/')[2];
+  var SB='https://vcpfjhwwpkjkoyfjuqxo.supabase.co';
+  var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjcGZqaHd3cGtqa295Zmp1cXhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzcyOTEsImV4cCI6MjA5NTY1MzI5MX0.Oo3JljuS1ZIH7V2cPsyRvFl4VDQJ23B_Hht70vXlvuE';
+  document.body.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:#FAF9F6"><div style="background:#fff;border-radius:28px;padding:32px;max-width:380px;width:100%;box-shadow:0 8px 32px rgba(26,26,46,.08);text-align:center"><div id="av" style="width:80px;height:80px;border-radius:28px;background:#2D9B5C;font-size:32px;font-weight:700;color:#fff;margin:0 auto 16px;display:flex;align-items:center;justify-content:center">?</div><h1 id="un" style="font-size:24px;font-weight:900;color:#1A1A2E;margin-bottom:8px">Chargement...</h1><p id="bio" style="color:#6E6880;font-size:14px;margin-bottom:24px"></p><a href="supapp://u/'+un+'" style="display:block;background:#2D9B5C;color:#fff;padding:16px;border-radius:16px;text-decoration:none;font-weight:800;font-size:15px">Voir le profil dans Sup</a><p style="color:#B0A99F;font-size:12px;margin-top:16px">Telechargez Sup sur Android</p></div></div>';
+  fetch(SB+'/rest/v1/profiles?username=eq.'+un+'&select=username,bio,avatar_url',{headers:{apikey:KEY}}).then(function(r){return r.json()}).then(function(d){var p=d[0];if(!p)return;document.getElementById('un').textContent=p.username;document.getElementById('bio').textContent=p.bio||'';document.getElementById('av').textContent=p.username[0].toUpperCase();document.title=p.username+" - Sup";if(p.avatar_url)document.getElementById('av').innerHTML='<img src="'+p.avatar_url+'" style="width:80px;height:80px;border-radius:28px;object-fit:cover">'});
+}
+</script>
 </body>
 </html>
